@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 
@@ -27,6 +28,8 @@ namespace HackYourSummerGame
         private Texture2D spider;
         private Texture2D cloakedStranger;
         private Texture2D attackButton;
+        private Texture2D healthBar;
+        private Texture2D healthContainer;
 
         public Game1()
         {
@@ -51,10 +54,12 @@ namespace HackYourSummerGame
             cloakedStranger = Content.Load<Texture2D>("Small char 3 02c");
             spider = Content.Load<Texture2D>("Spider");
             attackButton = Content.Load<Texture2D>("AttackButton");
+            healthBar = Content.Load<Texture2D>("Health Bar");
+            healthContainer = Content.Load<Texture2D>("Health Container");
 
             // player / enemies
-            player = new Ally(100, 9, new Vector2(100, 350), cloakedStranger, attackButton);
-            enemy = new Character(100, 8, new Vector2(600, 50), spider);
+            player = new Ally(100, 9, new Vector2(100, 350), cloakedStranger, attackButton, healthBar, healthContainer);
+            enemy = new Enemy(100, 8, new Vector2(600, 60), spider, healthBar, healthContainer);
         }
 
         protected override void Update(GameTime gameTime)
@@ -65,7 +70,7 @@ namespace HackYourSummerGame
 
 
             // Player attacks
-            if (currentTurn == TurnOrder.Ally && timer > 1)
+            if (currentTurn == TurnOrder.Ally && timer > 0.5)
             {
                 if (player.GetPlayerChoice(enemy))
                 {
@@ -73,13 +78,17 @@ namespace HackYourSummerGame
                     timer = 0;
                 }
             }
-            else if (currentTurn == TurnOrder.Enemy && timer > 1)
+            else if (currentTurn == TurnOrder.Enemy && timer > 0.9)
             {
                 enemy.GenericAttack(player);
                 currentTurn = TurnOrder.Ally;
+                timer = 0;
             }
 
             timer += gameTime.ElapsedGameTime.TotalSeconds;
+
+            player.Update();
+            enemy.Update();
 
 
 
@@ -88,7 +97,7 @@ namespace HackYourSummerGame
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.PaleVioletRed);
 
             _spriteBatch.Begin();
 

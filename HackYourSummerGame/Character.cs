@@ -21,6 +21,10 @@ namespace HackYourSummerGame
         // screen
         protected Vector2 location;
         protected Texture2D sprite;
+        protected Vector2 attackOffset;
+        protected Texture2D healthBar;
+        protected Texture2D healthContainer;
+        protected Vector2 healthPos;
 
         // health property r/w
         public int Health
@@ -30,12 +34,15 @@ namespace HackYourSummerGame
         }
 
         // Constructor
-        public Character(int health, int strength, Vector2 location, Texture2D sprite)
+        public Character(int health, int strength, Vector2 location, Texture2D sprite, Texture2D healthBar, Texture2D healthContainer)
         {
             this.health = health;
             this.strength = strength;
             this.location = location ;
             this.sprite = sprite;
+            this.healthBar = healthBar;
+            this.healthContainer = healthContainer;
+            healthPos = location - new Vector2(45, healthContainer.Height);
         }
 
         //
@@ -44,9 +51,17 @@ namespace HackYourSummerGame
             target.health -= strength;
         }
 
+        //
+        public virtual void Update()
+        {
+            
+        }
+
         public virtual void Draw(SpriteBatch sb)
         {
-            sb.Draw(sprite, location, Color.White);
+            sb.Draw(sprite, location + attackOffset, Color.White);
+            sb.Draw(healthBar, new Rectangle((int)healthPos.X, (int)healthPos.Y, healthBar.Width * health / 100, healthBar.Height), Color.White);
+            sb.Draw(healthContainer, healthPos, Color.White);
         }
     }
 }                                                           

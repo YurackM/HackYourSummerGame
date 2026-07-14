@@ -16,8 +16,8 @@ namespace HackYourSummerGame
         private Button[] buttons;
 
         // Constructor
-        public Ally(int health, int strength, Vector2 location, Texture2D sprite, Texture2D buttonImage)
-            : base(health, strength, location, sprite)
+        public Ally(int health, int strength, Vector2 location, Texture2D sprite, Texture2D buttonImage, Texture2D healthBar, Texture2D healthContainer)
+            : base(health, strength, location, sprite, healthBar, healthContainer)
         {
             buttons = new Button[4];
             for (int i = 0; i < 2; i++)
@@ -59,6 +59,23 @@ namespace HackYourSummerGame
             }
         }
 
+        // Basic attack move
+        public override void GenericAttack(Character target)
+        {
+            base.GenericAttack(target);
+            attackOffset = new Vector2(20, -20);
+        }
+
+        // Update player info
+        public override void Update()
+        {
+            if (attackOffset.X > 0)
+            {
+                attackOffset -= new Vector2(1, -1);
+            }
+        }
+
+        // Draw player
         public override void Draw(SpriteBatch sb)
         {
             base.Draw(sb);
