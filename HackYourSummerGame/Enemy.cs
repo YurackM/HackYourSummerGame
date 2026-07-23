@@ -14,10 +14,13 @@ namespace HackYourSummerGame
     /// </summary>
     internal class Enemy : Character
     {
+        // 
+        protected int moveTracker;
+
         public Enemy(int health, int strength, Vector2 location, Texture2D sprite, Texture2D healthBar, Texture2D healthContainer)
             : base(health, strength, location, sprite, healthBar, healthContainer)
         {
-
+            moveTracker = 0;
         }
 
         // Generic attack
@@ -34,6 +37,10 @@ namespace HackYourSummerGame
             {
                 attackOffset += new Vector2(1, -1);
             }
+        }
+
+        public virtual void MoveChoice(Character target)
+        {
         }
     }
 }
