@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
@@ -21,9 +23,8 @@ namespace HackYourSummerGame
         private TurnOrder currentTurn;
         private double timer;
 
-        private Character enemy;
+        private Enemy enemy;
         private Ally player;
-
 
         private Texture2D spider;
         private Texture2D cloakedStranger;
