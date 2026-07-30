@@ -59,8 +59,8 @@ namespace HackYourSummerGame
             healthContainer = Content.Load<Texture2D>("Health Container");
 
             // player / enemies
-            player = new Ally(100, 9, new Vector2(100, 350), cloakedStranger, attackButton, healthBar, healthContainer);
-            enemy = new Enemy(100, 8, new Vector2(600, 60), spider, healthBar, healthContainer);
+            player = new Ally(100, 9, 85, new Vector2(100, 350), cloakedStranger, attackButton, healthBar, healthContainer);
+            enemy = new Enemy(100, 8, 70, new Vector2(600, 60), spider, healthBar, healthContainer);
         }
 
         protected override void Update(GameTime gameTime)

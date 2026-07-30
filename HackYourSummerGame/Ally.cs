@@ -16,8 +16,8 @@ namespace HackYourSummerGame
         private Button[] buttons;
 
         // Constructor
-        public Ally(int health, int strength, Vector2 location, Texture2D sprite, Texture2D buttonImage, Texture2D healthBar, Texture2D healthContainer)
-            : base(health, strength, location, sprite, healthBar, healthContainer)
+        public Ally(int health, int strength, int speed, Vector2 location, Texture2D sprite, Texture2D buttonImage, Texture2D healthBar, Texture2D healthContainer)
+            : base(health, strength, speed, location, sprite, healthBar, healthContainer)
         {
             buttons = new Button[4];
             for (int i = 0; i < 2; i++)

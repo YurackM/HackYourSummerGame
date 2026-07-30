@@ -17,8 +17,8 @@ namespace HackYourSummerGame
         // 
         protected int moveTracker;
 
-        public Enemy(int health, int strength, Vector2 location, Texture2D sprite, Texture2D healthBar, Texture2D healthContainer)
-            : base(health, strength, location, sprite, healthBar, healthContainer)
+        public Enemy(int health, int strength, int speed, Vector2 location, Texture2D sprite, Texture2D healthBar, Texture2D healthContainer)
+            : base(health, strength, speed, location, sprite, healthBar, healthContainer)
         {
             moveTracker = 0;
         }

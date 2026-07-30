@@ -25,10 +25,21 @@ namespace HackYourSummerGame
         private TurnOrder currentTurn;
 
         // Constructor
-        public Battlefield(Ally[] playerParty, Enemy[] enemyTeam)
+        public Battlefield(List<Ally> playerParty, List<Enemy> enemyTeam)
         {
-            this.playerParty = playerParty;
-            this.enemyTeam = enemyTeam;
+            this.playerParty = new Ally[4];
+            this.enemyTeam = new Enemy[4];
+
+            for (int i = 0; i < playerParty.Count; i++)
+            {
+                this.playerParty[i] = playerParty[i];
+            }
+
+            for (int i = 0; i < enemyTeam.Count; i++)
+            {
+                this.enemyTeam[i] = enemyTeam[i];
+            }
+            
             currentTurn = TurnOrder.Ally;
             playerScreen = PlayerScreen.MoveSelect;
             attackOrder = new Queue<Ally>();
@@ -37,9 +48,31 @@ namespace HackYourSummerGame
         // Run battle instance
         public void Update()
         {
-            if(currentTurn == TurnOrder.Ally && playerScreen == PlayerScreen.MoveSelect)
-            {
+            
+        }
 
+
+        //
+        private void NextTurn()
+        {
+            List<Character> aliveChar = new List<Character>();
+            Double percentChange = int.MaxValue;
+            aliveChar.AddRange(playerParty);
+            aliveChar.AddRange(enemyTeam);
+
+            // Determine change in tm
+            for (int i = 0; i < aliveChar.Count; i++)
+            {
+                if ((100 - aliveChar[i].Turnmeter) / aliveChar[i].Speed < percentChange)
+                {
+                    percentChange = (100 - aliveChar[i].Turnmeter) / aliveChar[i].Speed;
+                }
+            }
+
+            // Increase turn meter
+            for (int i = 0; i < aliveChar.Count; i++)
+            {
+                aliveChar[i].Turnmeter += (aliveChar[i].Speed * percentChange);
             }
         }
     }

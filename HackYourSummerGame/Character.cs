@@ -17,6 +17,8 @@ namespace HackYourSummerGame
         // Stats
         protected int health;
         protected int strength;
+        protected int speed;
+        protected double turnmeter;
 
         // screen
         protected Vector2 location;
@@ -33,11 +35,26 @@ namespace HackYourSummerGame
             set { health = value; }
         }
 
+        // speed get property
+        public int Speed
+        {
+            get { return speed; }
+        }
+
+        // turnmeter property r/w
+        public double Turnmeter
+        {
+            get { return turnmeter; }
+            set { turnmeter = value; }
+        }
+
         // Constructor
-        public Character(int health, int strength, Vector2 location, Texture2D sprite, Texture2D healthBar, Texture2D healthContainer)
+        public Character(int health, int strength, int speed, Vector2 location, Texture2D sprite, Texture2D healthBar, Texture2D healthContainer)
         {
             this.health = health;
             this.strength = strength;
+            this.speed = speed;
+            turnmeter = 0;
             this.location = location ;
             this.sprite = sprite;
             this.healthBar = healthBar;

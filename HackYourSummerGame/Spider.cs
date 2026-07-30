@@ -11,8 +11,8 @@ namespace HackYourSummerGame
 {
     internal class Spider : Enemy
     {
-        public Spider(int health, int strength, Vector2 location, Texture2D sprite, Texture2D healthBar, Texture2D healthContainer)
-            : base(health, strength, location, sprite, healthBar, healthContainer)
+        public Spider(int health, int strength, int speed, Vector2 location, Texture2D sprite, Texture2D healthBar, Texture2D healthContainer)
+            : base(health, strength, speed, location, sprite, healthBar, healthContainer)
         {
         }
 
