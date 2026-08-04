@@ -6,11 +6,6 @@ using System.Reflection;
 
 namespace HackYourSummerGame
 {
-    public enum PlayerScreen
-    {
-        CharacterSelect,
-        MoveSelect
-    }
     internal class Battlefield
     {
         // Teams
@@ -18,8 +13,6 @@ namespace HackYourSummerGame
         private List<Enemy> enemyTeam;
 
         private Queue<Character> attackOrder;
-        private PlayerScreen playerScreen;
-        private TurnOrder currentTurn;
 
         private Random rng;
         private double timer;
@@ -40,8 +33,6 @@ namespace HackYourSummerGame
                 this.enemyTeam = enemyTeam;
             }
             
-            currentTurn = TurnOrder.Ally;
-            playerScreen = PlayerScreen.MoveSelect;
             attackOrder = new Queue<Character>();
 
             rng = new Random();
