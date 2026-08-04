@@ -29,6 +29,8 @@ namespace HackYourSummerGame
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            _graphics.PreferredBackBufferHeight = 1000;
+            _graphics.PreferredBackBufferWidth = 1500;
         }
 
         protected override void Initialize()
@@ -52,13 +54,13 @@ namespace HackYourSummerGame
             healthContainer = Content.Load<Texture2D>("Health Container");
 
             // player / enemies
-            allies.Add(new Ally(100, 9, 85, new Vector2(100, 350), cloakedStranger, attackButton, healthBar, healthContainer));
+            allies.Add(new Ally(100, 9, 85, new Vector2(100, 850), cloakedStranger, attackButton, healthBar, healthContainer));
 
 
-            enemies.Add(new Enemy(100, 8, 100, new Vector2(200 + enemies.Count * 150, 50 + enemies.Count * 20), spider, healthBar, healthContainer));
-            enemies.Add(new Enemy(100, 8, 100, new Vector2(200 + enemies.Count * 150, 50 + enemies.Count * 20), spider, healthBar, healthContainer));
-            enemies.Add(new Enemy(100, 8, 86, new Vector2(200 + enemies.Count * 150, 50 + enemies.Count * 20), spider, healthBar, healthContainer));
-            enemies.Add(new Enemy(100, 8, 84, new Vector2(200 + enemies.Count * 150, 50 + enemies.Count * 20), spider, healthBar, healthContainer));
+            enemies.Add(new Enemy(100, 8, 100, new Vector2(600 + enemies.Count * 220, 50 + enemies.Count * 55), spider, healthBar, healthContainer));
+            enemies.Add(new Enemy(100, 8, 100, new Vector2(600 + enemies.Count * 220, 50 + enemies.Count * 55), spider, healthBar, healthContainer));
+            enemies.Add(new Enemy(100, 8, 86, new Vector2(600 + enemies.Count * 220, 50 + enemies.Count * 55), spider, healthBar, healthContainer));
+            enemies.Add(new Enemy(100, 8, 84, new Vector2(600 + enemies.Count * 220, 50 + enemies.Count * 55), spider, healthBar, healthContainer));
             battlefield = new Battlefield(allies, enemies);
         }
 

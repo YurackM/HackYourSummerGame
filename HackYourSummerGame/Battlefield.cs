@@ -72,11 +72,21 @@ namespace HackYourSummerGame
             for (int i = 0; i < playerParty.Count; i++)
             {
                 playerParty[i].Update();
+                if (playerParty[i].Health <= 0)
+                {
+                    playerParty.RemoveAt(i);
+                    i--;
+                }
             }
 
             for (int i = 0; i < enemyTeam.Count; i++)
             {
                 enemyTeam[i].Update();
+                if (enemyTeam[i].Health <= 0)
+                {
+                    enemyTeam.RemoveAt(i);
+                    i--;
+                }
             }
         }
 

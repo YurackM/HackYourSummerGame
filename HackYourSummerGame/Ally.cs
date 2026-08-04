@@ -24,8 +24,8 @@ namespace HackYourSummerGame
             {
                 for (int j = 0; j < 2; j++)
                 {
-                    buttons[i * 2 + j] = new Button(buttonImage, new Rectangle(i * 201 + 350, 360 + 51 * j,
-                        200, 50), new Rectangle(0, 0, buttonImage.Width, buttonImage.Height));
+                    buttons[i * 2 + j] = new Button(buttonImage, new Rectangle(i * 401 + 660, 750 + 101 * j,
+                        400, 100), new Rectangle(0, 0, buttonImage.Width, buttonImage.Height));
                 }
             }
         }
@@ -50,7 +50,7 @@ namespace HackYourSummerGame
             }
             else if (buttons[3].Clicked())
             {
-                GenericAttack(target);
+                DoubleSlam(target);
                 return true;
             }
             else
@@ -63,6 +63,13 @@ namespace HackYourSummerGame
         public override void GenericAttack(Character target)
         {
             base.GenericAttack(target);
+            attackOffset = new Vector2(20, -20);
+        }
+
+        public void DoubleSlam(Character target)
+        {
+            target.Health -= strength;
+            target.Health -= strength;
             attackOffset = new Vector2(20, -20);
         }
 
