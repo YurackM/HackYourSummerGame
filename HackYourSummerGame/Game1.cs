@@ -9,22 +9,11 @@ using System.Threading;
 
 namespace HackYourSummerGame
 {
-    public enum TurnOrder
-    {
-        Ally,
-        Enemy
-    }
-
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private TurnOrder currentTurn;
-        private double timer;
-
-        private Enemy enemy;
-        private Ally player;
         private List<Enemy> enemies;
         private List<Ally> allies;
         private Battlefield battlefield;
@@ -45,7 +34,6 @@ namespace HackYourSummerGame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            currentTurn = TurnOrder.Ally;
             allies = new List<Ally>();
             enemies = new List<Enemy>();
 
@@ -64,8 +52,6 @@ namespace HackYourSummerGame
             healthContainer = Content.Load<Texture2D>("Health Container");
 
             // player / enemies
-            player = new Ally(100, 9, 85, new Vector2(100, 350), cloakedStranger, attackButton, healthBar, healthContainer);
-            enemy = new Enemy(100, 8, 70, new Vector2(600, 60), spider, healthBar, healthContainer);
             allies.Add(new Ally(100, 9, 85, new Vector2(100, 350), cloakedStranger, attackButton, healthBar, healthContainer));
 
 
@@ -81,29 +67,6 @@ namespace HackYourSummerGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-
-
-            // Player attacks
-            //if (currentTurn == TurnOrder.Ally && timer > 0.5)
-            //{
-            //    if (player.GetPlayerChoice(enemy))
-            //    {
-            //        currentTurn = TurnOrder.Enemy;
-            //        timer = 0;
-            //    }
-            //}
-            //else if (currentTurn == TurnOrder.Enemy && timer > 0.9)
-            //{
-            //    enemy.GenericAttack(player);
-            //    currentTurn = TurnOrder.Ally;
-            //    timer = 0;
-            //}
-
-            //timer += gameTime.ElapsedGameTime.TotalSeconds;
-
-            //player.Update();
-            //enemy.Update();
-
             battlefield.Update(gameTime);
 
 
@@ -115,16 +78,6 @@ namespace HackYourSummerGame
             GraphicsDevice.Clear(Color.PaleVioletRed);
 
             _spriteBatch.Begin();
-
-            //if(enemy.Health > 0)
-            //{
-            //    enemy.Draw(_spriteBatch);
-            //}
-
-            //if (player.Health > 0)
-            //{
-            //    player.Draw(_spriteBatch);
-            //}
 
             battlefield.Draw(_spriteBatch);
 
