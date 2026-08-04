@@ -25,6 +25,9 @@ namespace HackYourSummerGame
 
         private Enemy enemy;
         private Ally player;
+        private List<Enemy> enemies;
+        private List<Ally> allies;
+        private Battlefield battlefield;
 
         private Texture2D spider;
         private Texture2D cloakedStranger;
@@ -43,6 +46,8 @@ namespace HackYourSummerGame
         {
             // TODO: Add your initialization logic here
             currentTurn = TurnOrder.Ally;
+            allies = new List<Ally>();
+            enemies = new List<Enemy>();
 
             base.Initialize();
         }
@@ -61,6 +66,14 @@ namespace HackYourSummerGame
             // player / enemies
             player = new Ally(100, 9, 85, new Vector2(100, 350), cloakedStranger, attackButton, healthBar, healthContainer);
             enemy = new Enemy(100, 8, 70, new Vector2(600, 60), spider, healthBar, healthContainer);
+            allies.Add(new Ally(100, 9, 85, new Vector2(100, 350), cloakedStranger, attackButton, healthBar, healthContainer));
+
+
+            enemies.Add(new Enemy(100, 8, 100, new Vector2(200 + enemies.Count * 150, 50 + enemies.Count * 20), spider, healthBar, healthContainer));
+            enemies.Add(new Enemy(100, 8, 100, new Vector2(200 + enemies.Count * 150, 50 + enemies.Count * 20), spider, healthBar, healthContainer));
+            enemies.Add(new Enemy(100, 8, 86, new Vector2(200 + enemies.Count * 150, 50 + enemies.Count * 20), spider, healthBar, healthContainer));
+            enemies.Add(new Enemy(100, 8, 84, new Vector2(200 + enemies.Count * 150, 50 + enemies.Count * 20), spider, healthBar, healthContainer));
+            battlefield = new Battlefield(allies, enemies);
         }
 
         protected override void Update(GameTime gameTime)
@@ -71,26 +84,27 @@ namespace HackYourSummerGame
 
 
             // Player attacks
-            if (currentTurn == TurnOrder.Ally && timer > 0.5)
-            {
-                if (player.GetPlayerChoice(enemy))
-                {
-                    currentTurn = TurnOrder.Enemy;
-                    timer = 0;
-                }
-            }
-            else if (currentTurn == TurnOrder.Enemy && timer > 0.9)
-            {
-                enemy.GenericAttack(player);
-                currentTurn = TurnOrder.Ally;
-                timer = 0;
-            }
+            //if (currentTurn == TurnOrder.Ally && timer > 0.5)
+            //{
+            //    if (player.GetPlayerChoice(enemy))
+            //    {
+            //        currentTurn = TurnOrder.Enemy;
+            //        timer = 0;
+            //    }
+            //}
+            //else if (currentTurn == TurnOrder.Enemy && timer > 0.9)
+            //{
+            //    enemy.GenericAttack(player);
+            //    currentTurn = TurnOrder.Ally;
+            //    timer = 0;
+            //}
 
-            timer += gameTime.ElapsedGameTime.TotalSeconds;
+            //timer += gameTime.ElapsedGameTime.TotalSeconds;
 
-            player.Update();
-            enemy.Update();
+            //player.Update();
+            //enemy.Update();
 
+            battlefield.Update(gameTime);
 
 
             base.Update(gameTime);
@@ -102,15 +116,17 @@ namespace HackYourSummerGame
 
             _spriteBatch.Begin();
 
-            if(enemy.Health > 0)
-            {
-                enemy.Draw(_spriteBatch);
-            }
+            //if(enemy.Health > 0)
+            //{
+            //    enemy.Draw(_spriteBatch);
+            //}
 
-            if (player.Health > 0)
-            {
-                player.Draw(_spriteBatch);
-            }
+            //if (player.Health > 0)
+            //{
+            //    player.Draw(_spriteBatch);
+            //}
+
+            battlefield.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
