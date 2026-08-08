@@ -79,6 +79,11 @@ namespace HackYourSummerGame
             if (attackOffset.X > 0)
             {
                 attackOffset -= new Vector2(1, -1);
+                ongoingAnimation = true;
+            }
+            else
+            {
+                ongoingAnimation = false;
             }
         }
 

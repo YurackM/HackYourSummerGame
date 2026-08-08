@@ -19,6 +19,9 @@ namespace HackYourSummerGame
         protected int strength;
         protected int speed;
         protected double turnmeter;
+        protected bool attacking;
+        protected bool ongoingAnimation;
+        protected int tempSpeed;
 
         // screen
         protected Vector2 location;
@@ -41,11 +44,32 @@ namespace HackYourSummerGame
             get { return speed; }
         }
 
+        // temp speed change get property
+        public int TempSpeed
+        {
+            get { return tempSpeed; }
+            set { tempSpeed = value; }
+        }
+
         // turnmeter property r/w
         public double Turnmeter
         {
             get { return turnmeter; }
             set { turnmeter = value; }
+        }
+
+        // check if character is attacking still
+        public bool Attacking
+        {
+            get { return attacking; }
+            set { attacking = value; }
+        }
+
+        // check if character is in an animation
+        public bool OngoingAnimation
+        {
+            get { return ongoingAnimation; }
+            set { ongoingAnimation = value; }
         }
 
         // Constructor

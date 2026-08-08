@@ -57,10 +57,10 @@ namespace HackYourSummerGame
             allies.Add(new Ally(100, 9, 85, new Vector2(100, 850), cloakedStranger, attackButton, healthBar, healthContainer));
 
 
-            enemies.Add(new Enemy(100, 8, 100, new Vector2(600 + enemies.Count * 220, 50 + enemies.Count * 55), spider, healthBar, healthContainer));
-            enemies.Add(new Enemy(100, 8, 100, new Vector2(600 + enemies.Count * 220, 50 + enemies.Count * 55), spider, healthBar, healthContainer));
-            enemies.Add(new Enemy(100, 8, 86, new Vector2(600 + enemies.Count * 220, 50 + enemies.Count * 55), spider, healthBar, healthContainer));
-            enemies.Add(new Enemy(100, 8, 84, new Vector2(600 + enemies.Count * 220, 50 + enemies.Count * 55), spider, healthBar, healthContainer));
+            enemies.Add(new Spider(100, 8, 100, new Vector2(600 + enemies.Count * 220, 50 + enemies.Count * 55), spider, healthBar, healthContainer));
+            enemies.Add(new Spider(100, 8, 100, new Vector2(600 + enemies.Count * 220, 50 + enemies.Count * 55), spider, healthBar, healthContainer));
+            enemies.Add(new Spider(100, 8, 86, new Vector2(600 + enemies.Count * 220, 50 + enemies.Count * 55), spider, healthBar, healthContainer));
+            enemies.Add(new Spider(100, 8, 84, new Vector2(600 + enemies.Count * 220, 50 + enemies.Count * 55), spider, healthBar, healthContainer));
             battlefield = new Battlefield(allies, enemies);
         }
 
@@ -69,7 +69,20 @@ namespace HackYourSummerGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            battlefield.Update(gameTime);
+            if(battlefield != null)
+            {
+                battlefield.Update(gameTime);
+
+                if(battlefield.FightOver == 1)
+                {
+                    battlefield = null;
+                }
+                else if (battlefield.FightOver == -1)
+                {
+                    battlefield = null;
+                }
+            }
+           
 
 
             base.Update(gameTime);
@@ -81,7 +94,10 @@ namespace HackYourSummerGame
 
             _spriteBatch.Begin();
 
-            battlefield.Draw(_spriteBatch);
+            if(battlefield != null)
+            {
+                battlefield.Draw(_spriteBatch);
+            }
 
             _spriteBatch.End();
 

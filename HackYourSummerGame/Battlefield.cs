@@ -16,6 +16,13 @@ namespace HackYourSummerGame
 
         private Random rng;
         private double timer;
+        private int fightOver; 
+
+        // Check if fight is over
+        public int FightOver
+        {
+            get { return fightOver; }
+        }
 
         // Constructor
         public Battlefield(List<Ally> playerParty, List<Enemy> enemyTeam)
@@ -37,6 +44,7 @@ namespace HackYourSummerGame
 
             rng = new Random();
             timer = 0;
+            fightOver = 0;
         }
 
         // Run battle instance
@@ -48,9 +56,9 @@ namespace HackYourSummerGame
                 NextTurn();
             }
 
-            if(attackOrder.Peek() is Enemy && timer > 0.5)
+            if(attackOrder.Peek() is IEnemy && timer > 0.5)
             {
-                attackOrder.Dequeue().GenericAttack(playerParty[rng.Next(0, playerParty.Count)]);
+                (attackOrder.Dequeue() as IEnemy).GetNextMove(playerParty[rng.Next(0, playerParty.Count)]);
                 timer = 0;
             }
             else if(attackOrder.Peek() is Ally && timer > 0.5)
@@ -58,11 +66,12 @@ namespace HackYourSummerGame
                 if ((attackOrder.Peek() as Ally).GetPlayerChoice(enemyTeam[rng.Next(0, enemyTeam.Count)]))
                 {
                     attackOrder.Dequeue();
-                    timer = 0;
-                    
+                    timer = 0; 
                 }
             }
 
+            
+            // Advance timer
             if(timer < 100)
             {
                 timer += gameTime.ElapsedGameTime.TotalSeconds;
@@ -87,6 +96,16 @@ namespace HackYourSummerGame
                     enemyTeam.RemoveAt(i);
                     i--;
                 }
+            }
+
+            // Determine if fight is over and who won
+            if(playerParty.Count == 0)
+            {
+                fightOver = 1;
+            }
+            else if(enemyTeam.Count == 0)
+            {
+                fightOver = -1;
             }
         }
 

@@ -9,16 +9,16 @@ using Microsoft.Xna.Framework.Input;
 
 namespace HackYourSummerGame
 {
-    internal class Spider : Enemy
+    internal class Spider : Enemy, IEnemy
     {
         public Spider(int health, int strength, int speed, Vector2 location, Texture2D sprite, Texture2D healthBar, Texture2D healthContainer)
             : base(health, strength, speed, location, sprite, healthBar, healthContainer)
         {
         }
 
-        public override void MoveChoice(Character target)
+        public void GetNextMove(Character target)
         {
-            if(moveTracker > 1)
+            if(moveTracker > 2)
             {
                 moveTracker = 0;
             }
@@ -29,11 +29,28 @@ namespace HackYourSummerGame
             }
             else if(moveTracker == 1)
             {
-                target.Health -= strength / 7 * 4;
-                target.Health -= strength / 7 * 4;
+                DoubleBite(target);
+            }
+            else if(moveTracker == 2)
+            {
+                WebUp(target);
             }
 
             moveTracker++;
+        }
+
+        //
+        public void DoubleBite(Character target)
+        {
+            target.Health -= strength / 7 * 5;
+            attackOffset = new Vector2(-30, 30);
+            target.Health -= strength / 7 * 4;
+        }
+
+        public void WebUp(Character target)
+        {
+            target.TempSpeed -= strength / 5;
+            attackOffset = new Vector2(-10, 10);
         }
     }
 }

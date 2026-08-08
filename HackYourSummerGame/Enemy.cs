@@ -36,11 +36,12 @@ namespace HackYourSummerGame
             if (attackOffset.X < 0)
             {
                 attackOffset += new Vector2(1, -1);
+                ongoingAnimation = true;
             }
-        }
-
-        public virtual void MoveChoice(Character target)
-        {
-        }
+            else
+            {
+                ongoingAnimation = false;
+            }
+        } 
     }
 }
