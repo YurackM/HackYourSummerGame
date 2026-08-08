@@ -9,6 +9,14 @@ using System.Threading;
 
 namespace HackYourSummerGame
 {
+    public enum GameState
+    {
+        Menu,
+        Battle,
+        Upgrade,
+        Defeat
+    }
+
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -17,6 +25,7 @@ namespace HackYourSummerGame
         private List<Enemy> enemies;
         private List<Ally> allies;
         private Battlefield battlefield;
+        private GameState gameState;
 
         private Texture2D spider;
         private Texture2D cloakedStranger;
@@ -38,6 +47,7 @@ namespace HackYourSummerGame
             // TODO: Add your initialization logic here
             allies = new List<Ally>();
             enemies = new List<Enemy>();
+            gameState = GameState.Menu;
 
             base.Initialize();
         }
@@ -69,21 +79,44 @@ namespace HackYourSummerGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if(battlefield != null)
+            switch (gameState)
             {
-                battlefield.Update(gameTime);
+                case GameState.Menu:
 
-                if(battlefield.FightOver == 1)
-                {
-                    battlefield = null;
-                }
-                else if (battlefield.FightOver == -1)
-                {
-                    battlefield = null;
-                }
+
+                    break;
+
+                case GameState.Battle:
+
+                    // if a battlefield exists, run it
+                    if (battlefield != null)
+                    {
+                        battlefield.Update(gameTime);
+
+                        if (battlefield.FightOver == 1)
+                        {
+                            battlefield = null;
+                            gameState = GameState.Upgrade;
+                        }
+                        else if (battlefield.FightOver == -1)
+                        {
+                            battlefield = null;
+                            gameState = GameState.Defeat;
+                        }
+                    }
+
+                    break;
+
+                case GameState.Upgrade:
+
+
+                    break;
+
+                case GameState.Defeat:
+
+
+                    break;
             }
-           
-
 
             base.Update(gameTime);
         }
@@ -94,9 +127,32 @@ namespace HackYourSummerGame
 
             _spriteBatch.Begin();
 
-            if(battlefield != null)
+            switch (gameState)
             {
-                battlefield.Draw(_spriteBatch);
+                case GameState.Menu:
+
+
+                    break;
+
+                case GameState.Battle:
+
+                    // Draw fight
+                    if (battlefield != null)
+                    {
+                        battlefield.Draw(_spriteBatch);
+                    }
+
+                    break;
+
+                case GameState.Upgrade:
+
+
+                    break;
+
+                case GameState.Defeat:
+
+
+                    break;
             }
 
             _spriteBatch.End();
