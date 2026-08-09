@@ -28,16 +28,18 @@ namespace HackYourSummerGame
         public Battlefield(List<Ally> playerParty, List<Enemy> enemyTeam)
         {
             this.playerParty =new List<Ally>();
+            this.playerParty = playerParty;
             this.enemyTeam = new List<Enemy>();
+            this.enemyTeam = enemyTeam;
 
             for (int i = 0; i < playerParty.Count; i++)
             {
-                this.playerParty = playerParty;
+                playerParty[i].TempSpeed = 0;
             }
 
             for (int i = 0; i < enemyTeam.Count; i++)
             {
-                this.enemyTeam = enemyTeam;
+                enemyTeam[i].TempSpeed = 0;
             }
             
             attackOrder = new Queue<Character>();
@@ -135,16 +137,16 @@ namespace HackYourSummerGame
             // Determine change in tm
             for (int i = 0; i < aliveChar.Count; i++)
             {
-                if ((100 - aliveChar[i].Turnmeter) / aliveChar[i].Speed < percentChange)
+                if ((100 - aliveChar[i].Turnmeter) / (aliveChar[i].Speed + aliveChar[i].TempSpeed) < percentChange)
                 {
-                    percentChange = (100 - aliveChar[i].Turnmeter) / aliveChar[i].Speed;
+                    percentChange = (100 - (aliveChar[i].Turnmeter + aliveChar[i].TempSpeed)) / aliveChar[i].Speed;
                 }
             }
 
             // Increase turn meter, then queue if 100% tm
             for (int i = 0; i < aliveChar.Count; i++)
             {
-                aliveChar[i].Turnmeter += (aliveChar[i].Speed * percentChange);
+                aliveChar[i].Turnmeter += ((aliveChar[i].Speed + aliveChar[i].TempSpeed) * percentChange);
 
                 if(aliveChar[i].Turnmeter >= 100)
                 {

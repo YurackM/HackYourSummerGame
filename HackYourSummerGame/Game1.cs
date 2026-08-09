@@ -47,7 +47,7 @@ namespace HackYourSummerGame
             // TODO: Add your initialization logic here
             allies = new List<Ally>();
             enemies = new List<Enemy>();
-            gameState = GameState.Menu;
+            gameState = GameState.Battle;
 
             base.Initialize();
         }
@@ -123,7 +123,7 @@ namespace HackYourSummerGame
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.PaleVioletRed);
+            GraphicsDevice.Clear(Color.Wheat);
 
             _spriteBatch.Begin();
 

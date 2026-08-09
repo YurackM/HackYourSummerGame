@@ -85,6 +85,8 @@ namespace HackYourSummerGame
             {
                 ongoingAnimation = false;
             }
+
+            base.Update();
         }
 
         // Draw player

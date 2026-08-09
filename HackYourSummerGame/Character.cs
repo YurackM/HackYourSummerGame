@@ -30,6 +30,7 @@ namespace HackYourSummerGame
         protected Texture2D healthBar;
         protected Texture2D healthContainer;
         protected Vector2 healthPos;
+        protected int debuffTint;
 
         // health property r/w
         public int Health
@@ -48,7 +49,14 @@ namespace HackYourSummerGame
         public int TempSpeed
         {
             get { return tempSpeed; }
-            set { tempSpeed = value; }
+            set 
+            { 
+                if(value < 0)
+                {
+                    debuffTint = 255;
+                }
+                tempSpeed = value; 
+            }
         }
 
         // turnmeter property r/w
@@ -84,6 +92,7 @@ namespace HackYourSummerGame
             this.healthBar = healthBar;
             this.healthContainer = healthContainer;
             healthPos = location - new Vector2(45, healthContainer.Height);
+            debuffTint = 0;
         }
 
         //
@@ -95,12 +104,15 @@ namespace HackYourSummerGame
         //
         public virtual void Update()
         {
-            
+            if(debuffTint > 0)
+            {
+                debuffTint = debuffTint * 2 / 3;
+            }
         }
 
         public virtual void Draw(SpriteBatch sb)
         {
-            sb.Draw(sprite, location + attackOffset, Color.White);
+            sb.Draw(sprite, location + attackOffset, new Color(255,255 - debuffTint, 255 - debuffTint));
             sb.Draw(healthBar, new Rectangle((int)healthPos.X, (int)healthPos.Y, healthBar.Width * health / 100, healthBar.Height), Color.White);
             sb.Draw(healthContainer, healthPos, Color.White);
         }
