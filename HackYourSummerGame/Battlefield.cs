@@ -13,10 +13,12 @@ namespace HackYourSummerGame
         private List<Enemy> enemyTeam;
 
         private Queue<Character> attackOrder;
+        private List<Button> enemySelect;
 
         private Random rng;
         private double timer;
-        private int fightOver; 
+        private int fightOver;
+        private int enemyTarget;
 
         // Check if fight is over
         public int FightOver
@@ -28,18 +30,20 @@ namespace HackYourSummerGame
         public Battlefield(List<Ally> playerParty, List<Enemy> enemyTeam)
         {
             this.playerParty =new List<Ally>();
-            this.playerParty = playerParty;
             this.enemyTeam = new List<Enemy>();
             this.enemyTeam = enemyTeam;
+            enemySelect = new List<Button>();
 
-            for (int i = 0; i < playerParty.Count; i++)
+            for(int i = 0; i < playerParty.Count; i++)
             {
-                playerParty[i].TempSpeed = 0;
+                this.playerParty.Add(playerParty[i]);
             }
 
             for (int i = 0; i < enemyTeam.Count; i++)
             {
                 enemyTeam[i].TempSpeed = 0;
+                enemySelect.Add(new Button(null, enemyTeam[i].Hitbox,
+                    new Rectangle(0, 0, enemyTeam[i].Hitbox.Width, enemyTeam[i].Hitbox.Height)));
             }
             
             attackOrder = new Queue<Character>();
@@ -52,6 +56,15 @@ namespace HackYourSummerGame
         // Run battle instance
         public void Update(GameTime gameTime)
         {
+            // 
+            for(int i = 0; i < enemySelect.Count; i++)
+            {
+                if (enemySelect[i].Clicked())
+                {
+                    enemyTarget = i;
+                }
+            }
+
             // Increase tm if needed
             if(attackOrder.Count == 0)
             {
@@ -65,7 +78,7 @@ namespace HackYourSummerGame
             }
             else if(attackOrder.Peek() is Ally && timer > 0.5)
             {
-                if ((attackOrder.Peek() as Ally).GetPlayerChoice(enemyTeam[rng.Next(0, enemyTeam.Count)]))
+                if ((attackOrder.Peek() as Ally).GetPlayerChoice(enemyTeam[enemyTarget]))
                 {
                     attackOrder.Dequeue();
                     timer = 0; 
@@ -82,6 +95,8 @@ namespace HackYourSummerGame
             // Run update commands
             for (int i = 0; i < playerParty.Count; i++)
             {
+                
+
                 playerParty[i].Update();
                 if (playerParty[i].Health <= 0)
                 {
@@ -96,6 +111,7 @@ namespace HackYourSummerGame
                 if (enemyTeam[i].Health <= 0)
                 {
                     enemyTeam.RemoveAt(i);
+                    enemySelect.RemoveAt(i);
                     i--;
                 }
             }
@@ -119,6 +135,11 @@ namespace HackYourSummerGame
                 playerParty[i].Draw(sb);
             }
 
+            if(attackOrder.Count != 0 && attackOrder.Peek() is Ally)
+            {
+                ((Ally)attackOrder.Peek()).DrawButtons(sb);
+            }
+
             for (int i = 0; i < enemyTeam.Count; i++)
             {
                 enemyTeam[i].Draw(sb);
@@ -126,7 +147,7 @@ namespace HackYourSummerGame
         }
 
 
-        //
+        // Advance turn meter and queue fighters
         private void NextTurn()
         {
             List<Character> aliveChar = new List<Character>();
@@ -140,6 +161,11 @@ namespace HackYourSummerGame
                 if ((100 - aliveChar[i].Turnmeter) / (aliveChar[i].Speed + aliveChar[i].TempSpeed) < percentChange)
                 {
                     percentChange = (100 - (aliveChar[i].Turnmeter + aliveChar[i].TempSpeed)) / aliveChar[i].Speed;
+                    if(percentChange <= 0)
+                    {
+                        percentChange = 0;
+                        break;
+                    }
                 }
             }
 

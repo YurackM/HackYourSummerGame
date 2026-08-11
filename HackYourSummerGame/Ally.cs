@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -14,11 +15,16 @@ namespace HackYourSummerGame
     {
         // Fields
         private Button[] buttons;
+        private ContentManager contentManager;
+        private bool currentTurn;
 
         // Constructor
-        public Ally(int health, int strength, int speed, Vector2 location, Texture2D sprite, Texture2D buttonImage, Texture2D healthBar, Texture2D healthContainer)
-            : base(health, strength, speed, location, sprite, healthBar, healthContainer)
+        public Ally(int health, int strength, int speed, Vector2 position, Texture2D sprite, Texture2D healthBar, Texture2D healthContainer, ContentManager contentManager)
+            : base(health, strength, speed, position, sprite, healthBar, healthContainer)
         {
+            this.contentManager = contentManager;
+            Texture2D buttonImage = contentManager.Load<Texture2D>("AttackButton");
+
             buttons = new Button[4];
             for (int i = 0; i < 2; i++)
             {
@@ -33,30 +39,36 @@ namespace HackYourSummerGame
         //
         public bool GetPlayerChoice(Character target)
         {
+            bool buttonClicked = false;
+
             if (buttons[0].Clicked())
             {
                 GenericAttack(target);
-                return true;
+                buttonClicked = true;
             }
             else if (buttons[1].Clicked())
             {
                 GenericAttack(target);
-                return true;
+                buttonClicked = true;
             }
             else if (buttons[2].Clicked())
             {
                 GenericAttack(target);
-                return true;
+                buttonClicked = true;
             }
             else if (buttons[3].Clicked())
             {
                 DoubleSlam(target);
-                return true;
+                buttonClicked = true;
             }
-            else
+
+            if(DOT > 0 && buttonClicked)
             {
-                return false;
+                health -= (int)(DOT * (0.05 * maxHealth));
+                DOT--;
             }
+            
+            return buttonClicked;
         }
 
         // Basic attack move
@@ -86,15 +98,28 @@ namespace HackYourSummerGame
                 ongoingAnimation = false;
             }
 
-            base.Update();
+            if (currentTurn)
+            {
+                this.currentTurn = true;
+            }
+            else
+            {
+                this.currentTurn = false;
+            }
+
+                base.Update();
         }
 
         // Draw player
         public override void Draw(SpriteBatch sb)
         {
             base.Draw(sb);
+        }
 
-            foreach(Button button in buttons)
+        // Draw buttons
+        public void DrawButtons(SpriteBatch sb)
+        {
+            foreach (Button button in buttons)
             {
                 button.Draw(sb);
             }

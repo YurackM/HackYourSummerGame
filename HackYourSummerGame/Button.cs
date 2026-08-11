@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -114,10 +115,14 @@ namespace HackYourSummerGame
                  previousMState.LeftButton == ButtonState.Released &&
                  position.Contains(mState.Position))
             {
+                // Assign current mouse state as previous state;
+                previousMState = mState;
                 return true;
             }
             else
             {
+                // Assign current mouse state as previous state;
+                previousMState = mState;
                 return false;
             }
         }
