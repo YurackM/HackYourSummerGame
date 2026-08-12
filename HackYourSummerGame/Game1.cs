@@ -22,6 +22,7 @@ namespace HackYourSummerGame
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        private int level;
         private List<Enemy> enemies;
         private List<Ally> allies;
         private EnemyLoader enemyLoader;
@@ -53,6 +54,7 @@ namespace HackYourSummerGame
             // TODO: Add your initialization logic here
             allies = new List<Ally>();
             enemies = new List<Enemy>();
+            level = 1;
             gameState = GameState.Menu;
 
             base.Initialize();
@@ -108,7 +110,7 @@ namespace HackYourSummerGame
                             allies[i].Reset();
                         }
 
-                        battlefield = new Battlefield(allies, enemyLoader.NextEnemySet(1));
+                        battlefield = new Battlefield(allies, enemyLoader.NextEnemySet(level));
                     }
 
                     break;
@@ -139,7 +141,14 @@ namespace HackYourSummerGame
                     // Temp code
                     if (menuButton.Clicked())
                     {
-                        gameState = GameState.Menu;
+                        level++;
+                        gameState = GameState.Battle;
+                        for (int i = 0; i < allies.Count; i++)
+                        {
+                            allies[i].Reset();
+                        }
+
+                        battlefield = new Battlefield(allies, enemyLoader.NextEnemySet(level));
                     }
 
                     break;
@@ -150,6 +159,7 @@ namespace HackYourSummerGame
                     if (menuButton.Clicked())
                     {
                         gameState = GameState.Menu;
+                        level = 1;
                     }
 
                     break;

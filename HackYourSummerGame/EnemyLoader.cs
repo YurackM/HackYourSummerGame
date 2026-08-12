@@ -44,7 +44,7 @@ namespace HackYourSummerGame
             List<Enemy> enemySet = new List<Enemy>();
             double points = 25 * Math.Log(level+2);
             
-            if(level == 1)
+            if(level < 3)
             {
                 if(rng.Next(2) == 0)
                 {
@@ -55,9 +55,47 @@ namespace HackYourSummerGame
                     enemySet.Add(CreateVyper(level, enemySet.Count));
                 }
             }
-            else if(level < 4)
+            else if(level < 5)
             {
-                    
+                for(int i = 0; i < 2; i++)
+                {
+                    if (rng.Next(2) == 0)
+                    {
+                        enemySet.Add(CreateSpider(level, enemySet.Count));
+                    }
+                    else
+                    {
+                        enemySet.Add(CreateVyper(level, enemySet.Count));
+                    }
+                }
+            }
+            else if(level < 9)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    if (rng.Next(2) == 0)
+                    {
+                        enemySet.Add(CreateSpider(level, enemySet.Count));
+                    }
+                    else
+                    {
+                        enemySet.Add(CreateVyper(level, enemySet.Count));
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (rng.Next(2) == 0)
+                    {
+                        enemySet.Add(CreateSpider(level, enemySet.Count));
+                    }
+                    else
+                    {
+                        enemySet.Add(CreateVyper(level, enemySet.Count));
+                    }
+                }
             }
 
             return enemySet;

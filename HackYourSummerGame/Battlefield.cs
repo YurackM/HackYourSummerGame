@@ -119,11 +119,11 @@ namespace HackYourSummerGame
             // Determine if fight is over and who won
             if(playerParty.Count == 0)
             {
-                fightOver = 1;
+                fightOver = -1;
             }
             else if(enemyTeam.Count == 0)
             {
-                fightOver = -1;
+                fightOver = 1;
             }
         }
 
