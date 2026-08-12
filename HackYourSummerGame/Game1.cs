@@ -24,6 +24,7 @@ namespace HackYourSummerGame
 
         private List<Enemy> enemies;
         private List<Ally> allies;
+        private EnemyLoader enemyLoader;
         private Battlefield battlefield;
         private GameState gameState;
 
@@ -76,15 +77,16 @@ namespace HackYourSummerGame
             //allies.Add(new Ally(100, 9, 85, new Vector2(350, 650), cloakedStranger, healthBar, healthContainer, Content));
             //allies.Add(new Ally(100, 9, 65, new Vector2(420, 850), cloakedStranger, healthBar, healthContainer, Content));
 
-            enemies.Add(new Vyper(100, 0, 100, new Vector2(600 + enemies.Count * 220, 50 + enemies.Count * 55), spider, healthBar, healthContainer));
-            enemies.Add(new Vyper(100, 0, 100, new Vector2(600 + enemies.Count * 220, 50 + enemies.Count * 55), spider, healthBar, healthContainer));
-            enemies.Add(new Vyper(100, 0, 86, new Vector2(600 + enemies.Count * 220, 50 + enemies.Count * 55), spider, healthBar, healthContainer));
-            enemies.Add(new Vyper(100, 0, 84, new Vector2(600 + enemies.Count * 220, 50 + enemies.Count * 55), spider, healthBar, healthContainer));
+            //enemies.Add(new Vyper(100, 0, 100, new Vector2(600 + enemies.Count * 220, 50 + enemies.Count * 55), spider, healthBar, healthContainer));
+            //enemies.Add(new Vyper(100, 0, 100, new Vector2(600 + enemies.Count * 220, 50 + enemies.Count * 55), spider, healthBar, healthContainer));
+            //enemies.Add(new Vyper(100, 0, 86, new Vector2(600 + enemies.Count * 220, 50 + enemies.Count * 55), spider, healthBar, healthContainer));
+            //enemies.Add(new Vyper(100, 0, 84, new Vector2(600 + enemies.Count * 220, 50 + enemies.Count * 55), spider, healthBar, healthContainer));
 
             // Buttons
             startButton = new Button(start, new Rectangle(550, 400, 400, 200), new Rectangle(0, 0, 400, 200));
             menuButton = new Button(menu, new Rectangle(550, 400, 400, 200), new Rectangle(0, 0, 400, 200));
 
+            enemyLoader = new EnemyLoader(Content);
         }
 
         protected override void Update(GameTime gameTime)
@@ -106,7 +108,7 @@ namespace HackYourSummerGame
                             allies[i].Reset();
                         }
 
-                        battlefield = new Battlefield(allies, enemies);
+                        battlefield = new Battlefield(allies, enemyLoader.NextEnemySet(1));
                     }
 
                     break;

@@ -145,7 +145,7 @@ namespace HackYourSummerGame
         public virtual void Draw(SpriteBatch sb)
         {
             sb.Draw(sprite, position + attackOffset, new Color(255 - buffTint,255 - debuffTint, (255 - Math.Max(debuffTint, buffTint))));
-            sb.Draw(healthBar, new Rectangle((int)healthPos.X, (int)healthPos.Y, healthBar.Width * health / 100, healthBar.Height), Color.White);
+            sb.Draw(healthBar, new Rectangle((int)healthPos.X, (int)healthPos.Y, healthBar.Width * health / maxHealth, healthBar.Height), Color.White);
             sb.Draw(healthContainer, healthPos, Color.White);
         }
 
