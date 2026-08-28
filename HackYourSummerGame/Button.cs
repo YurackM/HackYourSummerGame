@@ -126,5 +126,36 @@ namespace HackYourSummerGame
                 return false;
             }
         }
+
+        //
+        public bool ClickedMethod()
+        {
+            // Check current mouse state
+            MouseState mState = Mouse.GetState();
+
+            // Check if the button is clicked, returning bool of answer
+            if (mState.LeftButton == ButtonState.Pressed &&
+                 previousMState.LeftButton == ButtonState.Released &&
+                 position.Contains(mState.Position))
+            {
+                // Assign current mouse state as previous state;
+                previousMState = mState;
+
+                // Check if event has subscribers
+                if (OnLeftButtonClick != null)
+                {
+                    // Call all attached methods
+                    OnLeftButtonClick();
+                }
+
+                return true;
+            }
+            else
+            {
+                // Assign current mouse state as previous state;
+                previousMState = mState;
+                return false;
+            }
+        }
     }
 }

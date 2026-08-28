@@ -35,6 +35,8 @@ namespace HackYourSummerGame
         protected int debuffTint;
         protected int buffTint;
 
+        public delegate void SingleTargetAttack(Character target);
+
         // health property r/w
         public int Health
         {
@@ -72,8 +74,18 @@ namespace HackYourSummerGame
         // r/w Damage over time
         public int DOT
         {
-            get;
-            set;
+            get
+            {
+                return dot;
+            }
+            set
+            {
+                if (value > 0)
+                {
+                    debuffTint = 255;
+                }
+                dot = value;
+            }
         }
 
         // turnmeter property r/w
@@ -134,11 +146,11 @@ namespace HackYourSummerGame
             // Decrease player tinting
             if(debuffTint > 0)
             {
-                debuffTint = debuffTint * 4 / 5;
+                debuffTint = debuffTint * 9/10;
             }
             if (buffTint > 0)
             {
-                buffTint = buffTint * 4 / 5;
+                buffTint = buffTint * 9 / 10;
             }
         }
 

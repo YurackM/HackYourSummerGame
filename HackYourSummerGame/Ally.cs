@@ -17,6 +17,7 @@ namespace HackYourSummerGame
         private Button[] buttons;
         private ContentManager contentManager;
         private bool currentTurn;
+        private List<SingleTargetAttack> attacks;
 
         // Constructor
         public Ally(int health, int strength, int speed, Vector2 position, Texture2D sprite, Texture2D healthBar, Texture2D healthContainer, ContentManager contentManager)
@@ -43,7 +44,6 @@ namespace HackYourSummerGame
 
             if (buttons[0].Clicked())
             {
-                GenericAttack(target);
                 buttonClicked = true;
             }
             else if (buttons[1].Clicked())
@@ -98,16 +98,7 @@ namespace HackYourSummerGame
                 ongoingAnimation = false;
             }
 
-            if (currentTurn)
-            {
-                this.currentTurn = true;
-            }
-            else
-            {
-                this.currentTurn = false;
-            }
-
-                base.Update();
+            base.Update();
         }
 
         // Draw player
