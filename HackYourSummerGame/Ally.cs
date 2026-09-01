@@ -18,6 +18,7 @@ namespace HackYourSummerGame
         private ContentManager contentManager;
         private bool currentTurn;
         private List<SingleTargetAttack> attacks;
+        private int[] statIncreases;
 
         // Constructor
         public Ally(int health, int strength, int speed, Vector2 position, Texture2D sprite, Texture2D healthBar, Texture2D healthContainer, ContentManager contentManager)
@@ -35,6 +36,8 @@ namespace HackYourSummerGame
                         400, 100), new Rectangle(0, 0, buttonImage.Width, buttonImage.Height));
                 }
             }
+
+            statIncreases = new int[3] { 5, 3, 3 };
         }
 
         //
@@ -44,6 +47,7 @@ namespace HackYourSummerGame
 
             if (buttons[0].Clicked())
             {
+                GenericAttack(target);
                 buttonClicked = true;
             }
             else if (buttons[1].Clicked())
@@ -113,6 +117,38 @@ namespace HackYourSummerGame
             foreach (Button button in buttons)
             {
                 button.Draw(sb);
+            }
+        }
+
+        public bool UpgradePlayer()
+        {
+            bool buttonClicked = false;
+
+            if (buttons[0].Clicked())
+            {
+                strength += statIncreases[0];
+                buttonClicked = true;
+            }
+            else if (buttons[1].Clicked())
+            {
+                strength += statIncreases[1];
+                buttonClicked = true;
+            }
+            else if (buttons[2].Clicked())
+            {
+                strength += statIncreases[2];
+                buttonClicked = true;
+            }
+
+            return buttonClicked;
+        }
+
+        public void UpgradePlayerChoice(SpriteBatch sb)
+        {
+            base.Draw(sb);
+            for(int i = 0; i < 3; i++)
+            {
+                buttons[i].Draw(sb);
             }
         }
     }

@@ -71,20 +71,22 @@ namespace HackYourSummerGame
                 NextTurn();
             }
 
-            if(attackOrder.Peek() is IEnemy && timer > 0.5)
+            if(attackOrder.Count > 0)
             {
-                (attackOrder.Dequeue() as IEnemy).GetNextMove(playerParty[rng.Next(0, playerParty.Count)]);
-                timer = 0;
-            }
-            else if(attackOrder.Peek() is Ally && timer > 0.5)
-            {
-                if ((attackOrder.Peek() as Ally).GetPlayerChoice(enemyTeam[enemyTarget]))
+                if (attackOrder.Peek() is IEnemy && timer > 0.5)
                 {
-                    attackOrder.Dequeue();
-                    timer = 0; 
+                    (attackOrder.Dequeue() as IEnemy).GetNextMove(playerParty[rng.Next(0, playerParty.Count)]);
+                    timer = 0;
+                }
+                else if (attackOrder.Peek() is Ally && timer > 0.5)
+                {
+                    if ((attackOrder.Peek() as Ally).GetPlayerChoice(enemyTeam[enemyTarget]))
+                    {
+                        attackOrder.Dequeue();
+                        timer = 0;
+                    }
                 }
             }
-
             
             // Advance timer
             if(timer < 100)
@@ -105,6 +107,7 @@ namespace HackYourSummerGame
                 }
             }
 
+            // Remove dead enemies
             for (int i = 0; i < enemyTeam.Count; i++)
             {
                 enemyTeam[i].Update();
@@ -112,6 +115,10 @@ namespace HackYourSummerGame
                 {
                     enemyTeam.RemoveAt(i);
                     enemySelect.RemoveAt(i);
+                    if (enemyTarget == enemyTeam.Count)
+                    {
+                        enemyTarget--;
+                    }   
                     i--;
                 }
             }

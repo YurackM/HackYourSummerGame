@@ -28,6 +28,7 @@ namespace HackYourSummerGame
         private EnemyLoader enemyLoader;
         private Battlefield battlefield;
         private GameState gameState;
+        private Queue<Ally> upgradeOrder;
 
         private Texture2D spider;
         private Texture2D cloakedStranger;
@@ -39,6 +40,7 @@ namespace HackYourSummerGame
 
         private Button startButton;
         private Button menuButton;
+        private Button nextLevel;
 
         public Game1()
         {
@@ -56,6 +58,7 @@ namespace HackYourSummerGame
             enemies = new List<Enemy>();
             level = 1;
             gameState = GameState.Menu;
+            upgradeOrder = new Queue<Ally>();
 
             base.Initialize();
         }
@@ -87,6 +90,7 @@ namespace HackYourSummerGame
             // Buttons
             startButton = new Button(start, new Rectangle(550, 400, 400, 200), new Rectangle(0, 0, 400, 200));
             menuButton = new Button(menu, new Rectangle(550, 400, 400, 200), new Rectangle(0, 0, 400, 200));
+            nextLevel = new Button(start, new Rectangle(550, 400, 400, 200), new Rectangle(0, 0, 400, 200));
 
             enemyLoader = new EnemyLoader(Content);
         }
@@ -126,6 +130,19 @@ namespace HackYourSummerGame
                         {
                             battlefield = null;
                             gameState = GameState.Upgrade;
+                            for(int i = 0; i < allies.Count; i++)
+                            {
+                                upgradeOrder.Enqueue(allies[i]);
+                            }
+                            if (allies.Count < 3 && level % 5 == 0)
+                            {
+                                allies.Add(new Ally(100, 9, 90, new Vector2(65 + 100 * allies.Count, 650 + 100 * allies.Count),
+                                    cloakedStranger, healthBar, healthContainer, Content));
+                                for (int i = 0; i < level; i++)
+                                {
+                                    upgradeOrder.Enqueue(allies[allies.Count - 1]);
+                                }
+                            }
                         }
                         else if (battlefield.FightOver == -1)
                         {
@@ -138,8 +155,14 @@ namespace HackYourSummerGame
 
                 case GameState.Upgrade:
 
-                    // Temp code
-                    if (menuButton.Clicked())
+                    if (upgradeOrder.Count > 0)
+                    {
+                        if (upgradeOrder.Peek().UpgradePlayer())
+                        {
+                            upgradeOrder.Dequeue();
+                        }
+                    }
+                    else if(nextLevel.Clicked())
                     {
                         level++;
                         gameState = GameState.Battle;
@@ -194,7 +217,14 @@ namespace HackYourSummerGame
 
                 case GameState.Upgrade:
 
-                    menuButton.Draw(_spriteBatch);
+                    if(upgradeOrder.Count > 0)
+                    {
+                        upgradeOrder.Peek().UpgradePlayerChoice(_spriteBatch);
+                    }
+                    else
+                    {
+                        nextLevel.Draw(_spriteBatch);
+                    }
 
                     break;
 
