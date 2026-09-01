@@ -37,6 +37,7 @@ namespace HackYourSummerGame
         private Texture2D healthContainer;
         private Texture2D start;
         private Texture2D menu;
+        private Texture2D next;
 
         private Button startButton;
         private Button menuButton;
@@ -75,6 +76,7 @@ namespace HackYourSummerGame
             healthContainer = Content.Load<Texture2D>("Health Container");
             start = Content.Load<Texture2D>("Start");
             menu = Content.Load<Texture2D>("Menu");
+            next = Content.Load<Texture2D>("Next");
 
             // player / enemies
             allies.Add(new Ally(100, 9, 90, new Vector2(65, 650), cloakedStranger, healthBar, healthContainer, Content));
@@ -90,7 +92,7 @@ namespace HackYourSummerGame
             // Buttons
             startButton = new Button(start, new Rectangle(550, 400, 400, 200), new Rectangle(0, 0, 400, 200));
             menuButton = new Button(menu, new Rectangle(550, 400, 400, 200), new Rectangle(0, 0, 400, 200));
-            nextLevel = new Button(start, new Rectangle(550, 400, 400, 200), new Rectangle(0, 0, 400, 200));
+            nextLevel = new Button(next, new Rectangle(550, 400, 400, 200), new Rectangle(0, 0, 400, 200));
 
             enemyLoader = new EnemyLoader(Content);
         }
